@@ -1,0 +1,77 @@
+# RepoSweeper Configuration for .NET Projects
+
+# Ignore build output directories
+**/bin/
+**/obj/
+
+**/*.css
+# Ignore Visual Studio files
+**/.vs/
+**/*.user
+**/*.suo
+
+# Ignore ReSharper files
+**/_ReSharper*/
+
+# Ignore NuGet packages
+**/packages/
+
+# Ignore .NET Core publish directory
+**/publish/
+
+# Ignore test results
+**/TestResults/
+
+# Ignore build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Ignore Visual Studio Code directories
+.vscode/
+
+# Ignore Rider IDE directories
+.idea/
+Aspir8.Web
+Aspir8.AppHost
+# Ignore .NET Core specific files
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
+nupkg/
+
+# Ignore local application settings
+**/appsettings.Development.json
+
+# Ignore user-specific files
+*.rsuser
+
+# Ignore .NET Core build results
+project.fragment.lock.json
+artifacts/
+
+# Ignore StyleCop
+StyleCopReport.xml
+
+# Ignore Cake build tool
+tools/**
+!tools/packages.config
+
+# Ignore coverage reports
+**/[Cc]overage/
+
+# Ignore Swagger generated files
+**/swagger.json
+**/swagger.yaml
+**/*.css
+**/*.razor

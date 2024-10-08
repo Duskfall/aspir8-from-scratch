@@ -1,32 +1,45 @@
+using SecondLevel;
+using Grpc.Net.Client;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add service defaults & Aspire components.
-builder.AddServiceDefaults();
+// Add gRPC service defaults
+builder.AddGrpcServiceDefaults();
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
+
+// Add gRPC client
+builder.Services.AddGrpcClient<SecondLevel.Weather.WeatherClient>((services, options) =>
+{
+    var grpcServerAddress = builder.Configuration["GrpcServerAddress"] ?? "http://localhost:5109";
+    options.Address = new Uri(grpcServerAddress);
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
 
-var summaries = new[]
+app.MapGet("/weatherforecast", async (SecondLevel.Weather.WeatherClient client) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    try
+    {
+        var request = new WeatherForecastRequest { Days = 5 };
+        var reply = await client.GetWeatherForecastAsync(request);
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+        var forecast = reply.Forecast.Select(f => new WeatherForecast(
+            DateOnly.FromDateTime(DateTimeOffset.FromUnixTimeSeconds(f.Date).DateTime),
+            f.TemperatureC,
+            f.Summary
+        )).ToArray();
+
+        return Results.Ok(forecast);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error fetching weather forecast: {ex.Message}");
+    }
 });
 
 app.MapDefaultEndpoints();

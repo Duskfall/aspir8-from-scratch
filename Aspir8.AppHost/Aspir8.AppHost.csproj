@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Aspir8.ApiService\Aspir8.ApiService.csproj" />
     <ProjectReference Include="..\Aspir8.Web\Aspir8.Web.csproj" />
+    <ProjectReference Include="..\SecondLevel\SecondLevel.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,4 +9,6 @@ builder.AddProject<Projects.Aspir8_Web>("webfrontend")
     .WithReference(cache)
     .WithReference(apiService);
 
+builder.AddProject<Projects.SecondLevel>("secondlevel");
+
 builder.Build().Run();
